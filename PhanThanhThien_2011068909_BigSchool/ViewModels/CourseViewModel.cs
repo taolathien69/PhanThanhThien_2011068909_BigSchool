@@ -1,6 +1,7 @@
 ﻿using PhanThanhThien_2011068909_BigSchool.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,10 +9,14 @@ namespace PhanThanhThien_2011068909_BigSchool.ViewModels
 {
     public class CourseViewModel
     {
-        public int Place { get; set; }
+        [Required]
+        public string Place { get; set; }
+        [Required]
+        [FutureDate]
         public string Date { get; set; }
+        [Required]
         public string Time { get; set; }
-
+        [Required]
         public byte Category { get; set; }
         public IEnumerable<Category> Categories { get; set; }
 

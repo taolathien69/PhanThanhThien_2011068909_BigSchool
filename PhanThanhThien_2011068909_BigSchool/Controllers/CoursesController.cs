@@ -1,4 +1,5 @@
-﻿using PhanThanhThien_2011068909_BigSchool.Models;
+﻿using Microsoft.AspNet.Identity;
+using PhanThanhThien_2011068909_BigSchool.Models;
 using PhanThanhThien_2011068909_BigSchool.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,39 @@ namespace PhanThanhThien_2011068909_BigSchool.Controllers
             _dbContext = new ApplicationDbContext();
         }
         // GET: Courses
+
+        [Authorize]
+        
+        [HttpGet]
         public ActionResult Create()
         {
             var viewModel = new CourseViewModel
             {
-                Categories = _dbContext.Categories.ToList()
+                Categories = _dbContext.Categories.ToList(),
             };
             return View(viewModel);
+        }
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Create(CourseViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                viewModel.Categories = _dbContext.Categories.ToList();
+                return View("Create",viewModel);
+            }
+            var course = new Course
+            {
+                LecturerId = User.Identity.GetUserId(),
+                DateTime = viewModel.GetDateTime(),
+                CategoryId = viewModel.Category,
+                Place = viewModel.Place
+            };
+            _dbContext.Courses.Add(course);
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("Index","Home");
         }
     }
 }
