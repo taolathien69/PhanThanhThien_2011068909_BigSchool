@@ -143,7 +143,7 @@ namespace PhanThanhThien_2011068909_BigSchool.Controllers
         }
 
         //
-        // POST: /Account/Register
+        // POST: /Account/Register 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
