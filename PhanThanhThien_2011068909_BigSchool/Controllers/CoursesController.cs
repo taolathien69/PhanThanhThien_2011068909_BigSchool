@@ -64,5 +64,17 @@ namespace PhanThanhThien_2011068909_BigSchool.Controllers
             };
             return View(viewModel);
         }
+        [Authorize]
+        public ActionResult Following()
+        {
+            var userId = User.Identity.GetUserId();
+            var followings = _dbContext.Followings
+                //.Where(f => f.FolloweeId == userId)
+                .Include(d => d.Followee)
+                // .Include(e => e.Follower)
+
+                .ToList();
+            return View(followings);
+        }
     }
 }
